@@ -2,6 +2,7 @@ import { execSync } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
 import Project from './Project'
+import Mustache = require('mustache')
 
 if (!process.env.HOME) {
   throw new Error('Undefined env HOME.')
@@ -58,4 +59,32 @@ export function readProjects(root: string): Project[] {
         category
       })
     })
+}
+
+export function mapWithCategory(
+  projects: Project[]
+): { [key: string]: Project[] } {
+  return projects.reduce((sorted, p) => {
+    if (!p.category) return sorted
+    if (!sorted[p.category]) {
+      sorted[p.category] = [p]
+    } else {
+      sorted[p.category].push(p)
+    }
+    return sorted
+  }, {})
+}
+
+export function renderProjects(sorted: { [key: string]: Project[] }): string {
+  const template = readTemplate('list-items')
+
+  let text = ''
+  for (let category in sorted) {
+    const vars = {
+      category,
+      projects: sorted[category]
+    }
+    text += Mustache.render(template, vars)
+  }
+  return text
 }
