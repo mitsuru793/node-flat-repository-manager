@@ -1,5 +1,5 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const basePath = __dirname
 
@@ -17,15 +17,15 @@ module.exports = {
     index: './index.ts'
   },
   output: {
-    libraryTarget: "commonjs2",
+    libraryTarget: 'commonjs2',
     path: path.join(basePath, 'dist'),
     filename: '[name].js'
   },
   module: {
-    rules: [{ test: /.tsx?$/, loader: 'ts-loader' }]
+    rules: [{test: /.tsx?$/, loader: 'ts-loader'}]
   },
   devServer: {
     contentBase: path.join(basePath, 'dist')
   },
-  plugins: [new HtmlWebpackPlugin()]
+  plugins: [new CopyPlugin([{from: 'template/', to: 'template/'}])]
 }
