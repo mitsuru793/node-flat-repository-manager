@@ -2,7 +2,6 @@ import { execSync } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
 import Project from './Project'
-import Mustache = require('mustache')
 
 if (!process.env.HOME) {
   throw new Error('Undefined env HOME.')
@@ -24,17 +23,6 @@ export function execOutputSync(cmd: string): void {
     .toString()
     .trim()
   log(result)
-}
-
-export function readTemplate(templatePath: string): string {
-  const file = path.join(__dirname, '/template/', `${templatePath}.mustache`)
-  if (!fs.existsSync(file)) {
-    throw new Error(`Not found template: ${file}`)
-  }
-  return fs
-    .readFileSync(file)
-    .toString()
-    .trim()
 }
 
 export function readProjects(root: string): Project[] {
@@ -73,18 +61,4 @@ export function mapWithCategory(
     }
     return sorted
   }, {})
-}
-
-export function renderProjects(sorted: { [key: string]: Project[] }): string {
-  const template = readTemplate('list-items')
-
-  let text = ''
-  for (let category in sorted) {
-    const vars = {
-      category,
-      projects: sorted[category]
-    }
-    text += Mustache.render(template, vars)
-  }
-  return text
 }

@@ -1,3 +1,7 @@
+export interface ProjectSet {
+  [key: string]: Project[]
+}
+
 export default class Project {
   public readonly path: string
   public readonly name: string
