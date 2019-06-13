@@ -1,6 +1,6 @@
 import * as React from "react"
 import {Text} from "ink"
-import {ProjectSet} from "./Project"
+import {ProjectSet} from "../Project"
 
 
 export function ProjectsSet(props: { projectsSet: ProjectSet }) {
