@@ -11,7 +11,7 @@ export function CategorizedProjects(props: { projectsSet: ProjectSet }) {
   for (let category in projectsSet) {
     lines.push(<Text key={i++}>{category}</Text>)
     projectsSet[category].map((project) => {
-      lines.push(<Text key={i++}>* {project.name}</Text>)
+      lines.push(<Text key={i++}>  * {project.name}</Text>)
     })
   }
 

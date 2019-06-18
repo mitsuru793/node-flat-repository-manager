@@ -13,6 +13,10 @@ program.version('1.0.0')
 
 program
   .command('list')
+  .option(
+    '-p, --projectsRoot <path>',
+    'Root path where you put project directories.'
+  )
   .description('List projects each category.')
   .action(listCommand)
 

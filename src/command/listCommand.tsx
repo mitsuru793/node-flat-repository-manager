@@ -1,9 +1,11 @@
 import * as React from "react"
 import {render} from "ink"
 import {CategorizedProjects} from "../components/CategorizedProjects"
-import {home, mapWithCategory, readProjects} from "../util"
+import {mapWithCategory, readProjects} from "../util"
+import {GlobalOptions} from "../__tests__/command/GlobalOptions"
 
-export function listCommand(): void {
-  const projectsSet = mapWithCategory(readProjects(`${home}/project`))
+export function listCommand(options: GlobalOptions): void {
+  const {projectsRoot} = options
+  const projectsSet = mapWithCategory(readProjects(projectsRoot))
   render(<CategorizedProjects projectsSet={projectsSet}/>)
 }
