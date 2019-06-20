@@ -2,7 +2,7 @@ import * as React from "react"
 import {render} from "ink"
 import {CategorizedProjects} from "../components/CategorizedProjects"
 import {mapWithCategory, readProjects} from "../util"
-import {GlobalOptions} from "../__tests__/command/GlobalOptions"
+import {GlobalOptions} from "./GlobalOptions"
 
 export function listCommand(options: GlobalOptions): void {
   const {projectsRoot} = options
