@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`list command lists success 1`] = `
-"/private/var/folders/p6/zm1pft7j33jbbtg64ytbxk7r0000gn/T
-node
+"node
   * hi
 php
   * hello
