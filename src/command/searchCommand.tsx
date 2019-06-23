@@ -57,7 +57,8 @@ class App extends React.Component<Props, State> {
       const filtered = projects.filter((project: Project) => {
         let matched =  project.category.match(searchCategory)
         if (searchName) {
-          matched = matched && project.name.match(searchName)
+          const nameRegexp = searchName.split('').join('.*?')
+          matched = matched && project.name.match(nameRegexp)
         }
         return matched
       })
