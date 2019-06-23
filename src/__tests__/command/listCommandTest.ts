@@ -1,5 +1,5 @@
-import {execSync} from 'child_process'
-import {mkdirSync} from 'fs'
+import { execSync } from 'child_process'
+import { mkdirSync } from 'fs'
 import tmpDir = require('temp-dir')
 import rimraf = require('rimraf')
 
@@ -27,4 +27,3 @@ describe('list command', () => {
     expect(out).toMatchSnapshot()
   })
 })
-
