@@ -1,5 +1,6 @@
 import { Command } from 'commander'
 import { listCommand } from './command/listCommand'
+import { searchCommand } from './command/searchCommand'
 
 const env = process.env.NODE_ENV || 'dev'
 
@@ -19,6 +20,15 @@ program
   )
   .description('List projects each category.')
   .action(listCommand)
+
+program
+  .command('search:path')
+  .option(
+    '-p, --projectsRoot <path>',
+    'Root path where you put project directories.'
+  )
+  .description('Search project and copy its absolute path to clipboard.')
+  .action(searchCommand)
 
 async function run(): Promise<void> {
   program.parse(process.argv)
