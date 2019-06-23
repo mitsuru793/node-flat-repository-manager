@@ -73,6 +73,10 @@ class App extends React.Component<Props, State> {
   onSubmit = () => {
     const {filteredSet} = this.state
     const selectedList = Object.values(filteredSet).flat()
+    if (selectedList.length < 1) {
+      return
+    }
+
     const last = selectedList.length - 1
     const path = selectedList[last].path
     log(path)
