@@ -42,7 +42,7 @@ export function readProjects(root: string): Project[] {
         category = segments[0]
       }
       return new Project({
-        path: path.join(home, dir.name),
+        path: path.join(root, dir.name),
         name,
         category
       })
