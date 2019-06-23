@@ -77,8 +77,7 @@ class App extends React.Component<Props, State> {
       return
     }
 
-    const last = selectedList.length - 1
-    const path = selectedList[last].path
+    const path = selectedList[0].path
     log(path)
     clipboardy.writeSync(path)
     this.props.onExit()
