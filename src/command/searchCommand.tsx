@@ -86,7 +86,7 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <Box flexDirection="column">
-        <CategorizedProjects projectsSet={this.state.filteredSet}/>
+        <CategorizedProjects projectsSet={this.state.filteredSet} firstHighlight={true}/>
         <SearchQuery query={this.state.query} onChange={this.onChange} onSubmit={this.onSubmit}/>
       </Box>
     )
