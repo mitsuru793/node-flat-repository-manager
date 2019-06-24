@@ -1,10 +1,10 @@
 import * as React from "react"
 import {AppContext, Box, render} from "ink"
 import {CategorizedProjects} from "../components/CategorizedProjects"
-import {fuzzyMatch, log, readProjects} from "../util"
+import {log, readProjects} from "../util"
 import {GlobalOptions} from "./GlobalOptions"
 import {SearchQuery} from "../components/SearchQuery"
-import Project from "../Project"
+import Project, {matchFilter} from "../Project"
 
 const clipboardy = require('clipboardy')
 
@@ -52,14 +52,7 @@ class App extends React.Component<Props, State> {
     const [searchCategory, searchName] = query.split(/\s+/)
     const {projects} = this.state
 
-    const filtered = projects.filter((project: Project) => {
-      let matched = fuzzyMatch(project.category, searchCategory)
-      if (searchName) {
-        matched = matched && fuzzyMatch(project.name, searchName)
-      }
-      return matched
-    })
-
+    const filtered = matchFilter(projects, {name: searchName, category: searchCategory})
     this.setState({query, filtered})
   }
 
