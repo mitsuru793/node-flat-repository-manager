@@ -4,8 +4,15 @@ import {CategorizedProjects} from "../components/CategorizedProjects"
 import {readProjects} from "../util"
 import {GlobalOptions} from "./GlobalOptions"
 
-export function listCommand(options: GlobalOptions): void {
+type Options = GlobalOptions & {
+  hasRemote: boolean
+}
+
+export function listCommand(options: Options): void {
   const {projectsRoot} = options
-  const projects = readProjects(projectsRoot)
+  let projects = readProjects(projectsRoot)
+  if (!options.hasRemote) {
+    projects = projects.filter(p => !p.hasRemote())
+  }
   render(<CategorizedProjects projects={projects}/>)
 }

@@ -18,6 +18,7 @@ program
     '-p, --projectsRoot <path>',
     'Root path where you put project directories.'
   )
+  .option('--no-has-remote', 'Filter projects does not have remote.')
   .description('List projects each category.')
   .action(listCommand)
 

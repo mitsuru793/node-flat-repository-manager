@@ -1,4 +1,7 @@
-import { fuzzyMatch } from './util'
+import { chdirBack, fuzzyMatch } from './util'
+import { execSync } from 'child_process'
+import { existsSync } from 'fs'
+import { join } from 'path'
 
 export interface ProjectSet {
   [key: string]: Project[]
@@ -13,6 +16,18 @@ export default class Project {
     this.path = props.path
     this.name = props.name
     this.category = props.category
+  }
+
+  public hasRemote(): boolean {
+    let hasRemote = false
+    chdirBack(this.path, () => {
+      hasRemote = this.hasGit() && execSync('git remote').length > 0
+    })
+    return hasRemote
+  }
+
+  public hasGit(): boolean {
+    return existsSync(join(this.path, '.git'))
   }
 }
 

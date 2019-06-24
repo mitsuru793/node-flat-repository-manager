@@ -67,3 +67,10 @@ export function fuzzyMatch(str: string, keyword: string): boolean {
   const regexp = keyword.split('').join('.*?')
   return !!str.match(regexp)
 }
+
+export function chdirBack(path: string, fn: () => void): void {
+  const before = process.cwd()
+  process.chdir(path)
+  fn()
+  process.chdir(before)
+}
