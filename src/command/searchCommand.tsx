@@ -1,12 +1,12 @@
 import * as React from "react"
 import {AppContext, Box, render} from "ink"
 import {CategorizedProjects} from "../components/CategorizedProjects"
-import {log, mapWithCategory, readProjects} from "../util"
+import {log, readProjects} from "../util"
 import {GlobalOptions} from "./GlobalOptions"
 import {SearchQuery} from "../components/SearchQuery"
-import Project, {ProjectSet} from "../Project"
+import Project from "../Project"
 
-const clipboardy = require('clipboardy');
+const clipboardy = require('clipboardy')
 
 export function searchCommand(options: GlobalOptions): void {
   const {projectsRoot} = options
@@ -16,7 +16,7 @@ export function searchCommand(options: GlobalOptions): void {
         <App projectsRoot={projectsRoot} onExit={exit}/>
       )}
     </AppContext.Consumer>
-    )
+  )
 }
 
 interface Props {
@@ -26,8 +26,8 @@ interface Props {
 
 interface State {
   query: string
-  projectsSet: ProjectSet
-  filteredSet: ProjectSet
+  projects: Project[]
+  filtered: Project[]
   searching: boolean
   exit: boolean
 }
@@ -37,12 +37,12 @@ class App extends React.Component<Props, State> {
     super(props)
 
     const {projectsRoot} = props
-    const projectsSet = mapWithCategory(readProjects(projectsRoot))
+    const projects = readProjects(projectsRoot)
 
     this.state = {
       query: '',
-      projectsSet,
-      filteredSet: {...projectsSet},
+      projects,
+      filtered: projects,
       searching: true,
       exit: false,
     }
@@ -50,29 +50,23 @@ class App extends React.Component<Props, State> {
 
   onChange = (query: string) => {
     const [searchCategory, searchName] = query.split(/\s+/)
-    const {projectsSet} = this.state
+    const {projects} = this.state
 
-    const newSet = {}
-    for (let [category, projects] of Object.entries(projectsSet)) {
-      const filtered = projects.filter((project: Project) => {
-        let matched =  project.category.match(searchCategory)
-        if (searchName) {
-          const nameRegexp = searchName.split('').join('.*?')
-          matched = matched && project.name.match(nameRegexp)
-        }
-        return matched
-      })
-      if (filtered.length > 0) {
-        newSet[category] = filtered
+    const filtered = projects.filter((project: Project) => {
+      let matched = project.category.match(searchCategory)
+      if (searchName) {
+        const nameRegexp = searchName.split('').join('.*?')
+        matched = matched && project.name.match(nameRegexp)
       }
-    }
+      return matched
+    })
 
-    this.setState({query, filteredSet: newSet})
+    this.setState({query, filtered})
   }
 
   onSubmit = () => {
-    const {filteredSet} = this.state
-    const selectedList = Object.values(filteredSet).flat()
+    const {filtered} = this.state
+    const selectedList = Object.values(filtered).flat()
     if (selectedList.length < 1) {
       return
     }
@@ -86,7 +80,7 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <Box flexDirection="column">
-        <CategorizedProjects projectsSet={this.state.filteredSet} firstHighlight={true}/>
+        <CategorizedProjects projects={this.state.filtered} firstHighlight={true}/>
         <SearchQuery query={this.state.query} onChange={this.onChange} onSubmit={this.onSubmit}/>
       </Box>
     )
