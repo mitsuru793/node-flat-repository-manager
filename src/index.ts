@@ -19,6 +19,7 @@ program
     'Root path where you put project directories.'
   )
   .option('--no-has-remote', 'Filter projects does not have remote.')
+  .option('--commit-yet', 'Filter projects has files committed yet.')
   .description('List projects each category.')
   .action(listCommand)
 

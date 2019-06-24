@@ -6,13 +6,26 @@ import {GlobalOptions} from "./GlobalOptions"
 
 type Options = GlobalOptions & {
   hasRemote: boolean
+  commitYet: boolean
 }
 
 export function listCommand(options: Options): void {
   const {projectsRoot} = options
   let projects = readProjects(projectsRoot)
-  if (!options.hasRemote) {
-    projects = projects.filter(p => !p.hasRemote())
-  }
+
+  projects = projects.filter(p => {
+    let match = true
+
+    if (!options.hasRemote) {
+      match = !p.hasRemote()
+    }
+
+    if (options.commitYet) {
+      match = match && !p.hasCommitted()
+    }
+
+    return match
+  })
+
   render(<CategorizedProjects projects={projects}/>)
 }

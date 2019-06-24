@@ -32,6 +32,14 @@ export default class Project {
     return hasRemote
   }
 
+  public hasCommitted(): boolean {
+    let has = false
+    chdirBack(this.path, () => {
+      has = this.hasGit() && execSync('git status --short').length <= 0
+    })
+    return has
+  }
+
   public hasGit(): boolean {
     return existsSync(join(this.path, '.git'))
   }
