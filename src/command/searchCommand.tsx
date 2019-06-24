@@ -1,7 +1,7 @@
 import * as React from "react"
 import {AppContext, Box, render} from "ink"
 import {CategorizedProjects} from "../components/CategorizedProjects"
-import {log, readProjects} from "../util"
+import {fuzzyMatch, log, readProjects} from "../util"
 import {GlobalOptions} from "./GlobalOptions"
 import {SearchQuery} from "../components/SearchQuery"
 import Project from "../Project"
@@ -53,10 +53,9 @@ class App extends React.Component<Props, State> {
     const {projects} = this.state
 
     const filtered = projects.filter((project: Project) => {
-      let matched = project.category.match(searchCategory)
+      let matched = fuzzyMatch(project.category, searchCategory)
       if (searchName) {
-        const nameRegexp = searchName.split('').join('.*?')
-        matched = matched && project.name.match(nameRegexp)
+        matched = matched && fuzzyMatch(project.name, searchName)
       }
       return matched
     })

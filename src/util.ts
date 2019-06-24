@@ -62,3 +62,8 @@ export function mapWithCategory(
     return sorted
   }, {})
 }
+
+export function fuzzyMatch(str: string, keyword: string): boolean {
+  const regexp = keyword.split('').join('.*?')
+  return !!str.match(regexp)
+}
