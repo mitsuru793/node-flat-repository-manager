@@ -7,6 +7,7 @@ import {GlobalOptions} from "./GlobalOptions"
 type Options = GlobalOptions & {
   hasRemote: boolean
   commitYet: boolean
+  pushMasterYet: boolean
 }
 
 export function listCommand(options: Options): void {
@@ -22,6 +23,10 @@ export function listCommand(options: Options): void {
 
     if (options.commitYet) {
       match = match && !p.hasCommitted()
+    }
+
+    if (options.pushMasterYet) {
+      match = match && !p.hasPushed()
     }
 
     return match

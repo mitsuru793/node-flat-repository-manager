@@ -40,6 +40,14 @@ export default class Project {
     return has
   }
 
+  public hasPushed(): boolean {
+    let has = false
+    chdirBack(this.path, () => {
+      has = this.hasGit() && execSync('git log origin/master..master').length <= 0
+    })
+    return has
+  }
+
   public hasGit(): boolean {
     return existsSync(join(this.path, '.git'))
   }

@@ -20,6 +20,7 @@ program
   )
   .option('--no-has-remote', 'Filter projects does not have remote.')
   .option('--commit-yet', 'Filter projects has files committed yet.')
+  .option('--push-master-yet', 'Filter projects has master branch pushed yet.')
   .description('List projects each category.')
   .action(listCommand)
 
