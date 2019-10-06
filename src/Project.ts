@@ -43,7 +43,9 @@ export default class Project {
   public hasPushed(): boolean {
     let has = false
     chdirBack(this.path, () => {
-      has = this.hasGit() && execSync('git log origin/master..master').length <= 0
+      has = this.hasGit() &&
+        execSync('git remote -v').length > 0 &&
+        execSync('git log origin/master..master').length <= 0
     })
     return has
   }
