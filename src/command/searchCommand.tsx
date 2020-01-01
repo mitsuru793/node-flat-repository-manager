@@ -58,7 +58,7 @@ class App extends React.Component<Props, State> {
 
   onSubmit = () => {
     const {filtered} = this.state
-    const selectedList = Object.values(filtered).flat()
+    const selectedList = filtered.flat()
     if (selectedList.length < 1) {
       return
     }
